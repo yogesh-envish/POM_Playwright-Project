@@ -10,41 +10,54 @@ export class UrbanLoginPage {
         this.emailbox = this.page.locator("div#password-credentials>input#spree_user_email");
         this.passbox = this.page.locator("div.password>input:nth-child(1)");
         this.logibsubmitbtn = this.page.locator("(//input[@type='submit'])[3]");
+        this.emailerrmsg = this.page.locator("xpath=(//div[@id='password-credentials']//label[@class='error'])[1]");
+        this.passerrmsg = this.page.locator("xpath=(//div[@id='password-credentials']//label[@class='error'])[1]");
     }
 
+    async LaunchURL() {
+        await this.page.goto("https://www.urbanladder.com/")
 
-    async empty_login() {
+        await expect(this.page).toHaveTitle(/Urban Ladder/);
+    }
+
+    async ProfileandLoginlink() {
         await this.profileicon.click();
         await this.loginbtn.click();
         await expect(this.popupheadings).toBeVisible();
+    }
+
+    async empty_login() {
         await this.logibsubmitbtn.click();
+        await expect(this.emailerrmsg).toBeVisible();
+        await expect(this.passerrmsg).toBeVisible();
+        await expect(this.emailerrmsg).toHaveText("This field is required.");
+        await expect(this.passerrmsg).toHaveText("This field is required.");
     }
 
     async empty_email() {
-        await this.profileicon.click();
-        await this.loginbtn.click();
-        await expect(this.popupheadings).toBeVisible();
         await this.emailbox.fill("");
         await this.passbox.fill("Ak9871625533@");
         await this.logibsubmitbtn.click();
+        await expect(this.emailerrmsg).toBeVisible();
+        await expect(this.emailerrmsg).toHaveText("This field is required.");
+
     }
 
     async empty_passwprd() {
-        await this.profileicon.click();
-        await this.loginbtn.click();
-        await expect(this.popupheadings).toBeVisible();
         await this.emailbox.fill("yogesh@gmail.com");
         await this.passbox.fill("");
         await this.logibsubmitbtn.click();
+        await expect(this.passerrmsg).toBeVisible();
+        await expect(this.passerrmsg).toHaveText("This field is required.");
     }
 
     async Valid_login() {
-        await this.profileicon.click();
-        await this.loginbtn.click();
-        await expect(this.popupheadings).toBeVisible();
         await this.emailbox.fill("yogesh@gmail.com");
         await this.passbox.fill("Ak9871625533@");
-        await this.logibsubmitbtn.click();
     }
 
+    async clickloginbtn() {
+        await this.logibsubmitbtn.click();
+    }
+    
 }
