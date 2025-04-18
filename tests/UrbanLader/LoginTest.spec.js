@@ -5,9 +5,9 @@ import { UrbanLoginPage } from '../../Pages/LoginUrbanlader'
 //Launching the Urban Ladder URL
 test.beforeEach('Launching the Urbanladder url', async ({ page }) => {
 
-    await page.goto("https://www.urbanladder.com/");
+    const urbanLoginPage = new UrbanLoginPage(page);
+    await urbanLoginPage.LaunchURL();
 
-    await expect(page).toHaveTitle(/Urban Ladder/)
 })
 
 
@@ -15,6 +15,7 @@ test.beforeEach('Launching the Urbanladder url', async ({ page }) => {
 test('Login with Empty Creds', async ({ page }) => {
 
     const urbanLoginPage = new UrbanLoginPage(page);
+    await urbanLoginPage.ProfileandLoginlink();
     await urbanLoginPage.empty_login();
 })
 
@@ -22,6 +23,7 @@ test('Login with Empty Creds', async ({ page }) => {
 test('Login with Empty email', async ({ page }) => {
 
     const urbanLoginPage = new UrbanLoginPage(page);
+    await urbanLoginPage.ProfileandLoginlink();
     await urbanLoginPage.empty_email();
 })
 
@@ -29,6 +31,7 @@ test('Login with Empty email', async ({ page }) => {
 test('Login with Empty password', async ({ page }) => {
 
     const urbanLoginPage = new UrbanLoginPage(page);
+    await urbanLoginPage.ProfileandLoginlink();
     await urbanLoginPage.empty_passwprd();
 })
 
@@ -37,7 +40,9 @@ test('Login with valid Creds', async ({ page }) => {
 
 
     const urbanLoginPage = new UrbanLoginPage(page);
+    await urbanLoginPage.ProfileandLoginlink();
     await urbanLoginPage.Valid_login();
+    await urbanLoginPage.clickloginbtn();
 })
 
 //Closing  the  tabs
@@ -46,4 +51,3 @@ test.afterEach('Closing the tab once execute each testcase', async ({ page }) =>
     await page.close()
 
 })
-
