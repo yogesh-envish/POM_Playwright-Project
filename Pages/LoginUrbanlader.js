@@ -12,6 +12,7 @@ export class UrbanLoginPage {
         this.logibsubmitbtn = this.page.locator("(//input[@type='submit'])[3]");
         this.emailerrmsg = this.page.locator("xpath=(//div[@id='password-credentials']//label[@class='error'])[1]");
         this.passerrmsg = this.page.locator("xpath=(//div[@id='password-credentials']//label[@class='error'])[1]");
+        this.clickLogoutbtn = this.page.locator("((//div[@class='header__topBar']//div)[1]//section[3]//ul[1]//li)[2]//ul//li[4]//a");
     }
 
     async LaunchURL() {
@@ -36,7 +37,7 @@ export class UrbanLoginPage {
 
     async empty_email() {
         await this.emailbox.fill("");
-        await this.passbox.fill("Ak9871625533@");
+        await this.passbox.fill("Ak9487162553@");
         await this.logibsubmitbtn.click();
         await expect(this.emailerrmsg).toBeVisible();
         await expect(this.emailerrmsg).toHaveText("This field is required.");
@@ -51,13 +52,18 @@ export class UrbanLoginPage {
         await expect(this.passerrmsg).toHaveText("This field is required.");
     }
 
-    async Valid_login() {
-        await this.emailbox.fill("yogesh@gmail.com");
-        await this.passbox.fill("Ak9871625533@");
+    async Valid_login(username, password) {
+        await this.emailbox.fill(username);
+        await this.passbox.fill(password);
     }
 
     async clickloginbtn() {
         await this.logibsubmitbtn.click();
+    }
+
+    async clicklogoutbtn() {
+        await this.profileicon.click();
+        await this.clickLogoutbtn.click(); 
     }
     
 }
