@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test} from '@playwright/test'
 import { UrbanLoginPage } from '../../Pages/LoginUrbanlader'
 
 
@@ -37,11 +37,10 @@ test('Login with Empty password', async ({ page }) => {
 
 //Try to login with valid creds
 test('Login with valid Creds', async ({ page }) => {
-
-
+    
     const urbanLoginPage = new UrbanLoginPage(page);
     await urbanLoginPage.ProfileandLoginlink();
-    await urbanLoginPage.Valid_login();
+    await urbanLoginPage.Valid_login("yogesh@gmail.com","Ak9487162553@");
     await urbanLoginPage.clickloginbtn();
 })
 
@@ -49,5 +48,4 @@ test('Login with valid Creds', async ({ page }) => {
 test.afterEach('Closing the tab once execute each testcase', async ({ page }) => {
 
     await page.close()
-
 })
