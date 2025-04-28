@@ -22,6 +22,7 @@ test('Searching the Product ', async ({ page }) => {
     await productPage.Click_LivingCategory();
     await productPage.Click_CoffeTable();
     await productPage.Click_Sortbtn();
+    await productPage.click_expectedproduct();
 
 })
 

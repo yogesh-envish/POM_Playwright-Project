@@ -65,5 +65,4 @@ export class UrbanLoginPage {
         await this.profileicon.click();
         await this.clickLogoutbtn.click(); 
     }
-    
 }
