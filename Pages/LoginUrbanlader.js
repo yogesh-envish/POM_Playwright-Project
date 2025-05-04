@@ -16,7 +16,7 @@ export class UrbanLoginPage {
     }
 
     async LaunchURL() {
-        await this.page.goto("https://www.urbanladder.com/")
+        await this.page.goto("https://www.urbanladder.com/");
 
         await expect(this.page).toHaveTitle(/Urban Ladder/);
     }

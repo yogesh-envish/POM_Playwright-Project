@@ -1,6 +1,15 @@
-import { test} from '@playwright/test'
-import { UrbanLoginPage } from '../../Pages/LoginUrbanlader'
+//Importing the required modules and classes
+//Importing the test class from the LoginUrbanlader page
+import { test } from '@playwright/test'
+import { UrbanLoginPage } from '../../../Pages/LoginUrbanlader'
+import fs from 'fs'
+import { parse } from 'csv-parse/sync'
 
+//Importing the test data from the CSV file
+const datas = parse(fs.readFileSync("test-data/LoginCredsUrbanladder.csv"), {
+    columns: true,
+    skip_empty_lines: true
+})
 
 //Launching the Urban Ladder URL
 test.beforeEach('Launching the Urbanladder url', async ({ page }) => {
@@ -37,11 +46,16 @@ test('Login with Empty password', async ({ page }) => {
 
 //Try to login with valid creds
 test('Login with valid Creds', async ({ page }) => {
-    
+
     const urbanLoginPage = new UrbanLoginPage(page);
     await urbanLoginPage.ProfileandLoginlink();
-    await urbanLoginPage.Valid_login("yogesh@gmail.com","Ak9487162553@");
+    //Iterating through the test data
+    //Using the for of loop to iterate through the test data
+    for (const data of datas) {
+        await urbanLoginPage.Valid_login(data.Username, data.Password);
+    }
     await urbanLoginPage.clickloginbtn();
+
 })
 
 //Closing  the  tabs
