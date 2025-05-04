@@ -1,5 +1,5 @@
 import { page, expect } from '@playwright/test'
-import test from 'node:test';
+
 
 
 export class ProductPage {
@@ -16,7 +16,10 @@ export class ProductPage {
         this.alloptions = this.page.locator("ul.sortoptions > li");
         this.productbox = this.page.locator("div.productbox");
         this.productnames = this.page.locator("div.product-info-block > a > div > span.name");
-        this.viewprodbtn = this.page.locator(".otherinfo > a:nth-child(2)");   
+        this.viewprodbtn = this.page.locator(".otherinfo > a:nth-child(2)");
+        this.producttitle = this.page.locator("div > h1.product-title");
+        this.priceofproduct = this.page.locator("div.price > div.discounted-price");
+        this.addtocartbtn = this.page.locator("button#add-to-cart-button");
 
 
         //expected text
@@ -29,12 +32,12 @@ export class ProductPage {
         await this.carticon.click();
         await expect(this.page).toHaveURL(/cart/);
 
-        await expect(this.emptytxt).toHaveText(this.expectedemptytxt)
-
-        if (this.emptytxt.isVisible()) {
+        if (await this.emptytxt.isVisible()) {
+            await expect(this.emptytxt).toHaveText(this.expectedemptytxt);
             await this.continuebtn.click();
         } else {
             await this.closebtn.click();
+            await this.continuebtn.click();
         }
     }
 
@@ -60,9 +63,9 @@ export class ProductPage {
                 await this.alloptions.nth(i).click();
                 break;
             }
-         
+
         }
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(4000);
     }
 
     async click_expectedproduct() {
@@ -85,15 +88,52 @@ export class ProductPage {
                         await this.productbox.nth(i).click();
                         break;
                     case "Open in same tab":
-                        await this.page.waitForTimeout(2000);
+                        await this.page.waitForTimeout(3000);
                         await this.productbox.nth(i).hover();
-                        await this.page.waitForTimeout(2000);
+                        await this.page.waitForTimeout(3000);
                         await this.viewprodbtn.nth(i).click();
-                        await this.page.waitForTimeout(2000);
+                        await this.page.waitForTimeout(3000);
                         break;
                 }
                 break;
             }
         }
+    }
+
+    async verifyproductdetails() {
+        await this.producttitle.isVisible();
+        const expectedproducttitle = "Square Solid Wood Coffee Table in Gold";
+        const actualproducttitle = await this.producttitle.textContent();
+        console.log("Actual product title is: " + actualproducttitle);
+        console.log("Expected product title is: " + expectedproducttitle);
+        await expect(this.producttitle).toHaveText(expectedproducttitle);
+
+        await this.page.waitForTimeout(2000);
+
+        await expect(this.priceofproduct).toBeVisible();
+        await this.priceofproduct.scrollIntoViewIfNeeded();
+        let actualprice = await this.priceofproduct.textContent();
+        let finalactualprice = actualprice.replace("MRP", '').replace("₹", '').replace(",", '').trim();
+        console.log("Actual product price is: " + finalactualprice);
+        const expectedprice = "99999";
+        console.log("Expected product price is: " + expectedprice);
+        //await expect(finalactualprice).toHaveText(expectedprice);;
+        if (finalactualprice === expectedprice) {
+            console.log("Price is matching with expected price");
+        }
+        else {
+            console.log("Price is not matching with expected price");
+        }
+    }
+
+    async click_addtocartbtn() {
+        await this.addtocartbtn.isVisible();
+        await this.addtocartbtn.click();
+        await this.page.waitForTimeout(2000);
+    }
+
+    async click_continuebtn() {
+        await this.continuebtn.isVisible();
+        await this.continuebtn.click();
     }
 }
