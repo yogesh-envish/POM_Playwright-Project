@@ -9,8 +9,8 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v5.0.0
+    - uses: actions/setup-node@v4.4.0
       with:
         node-version: lts/*
     - name: Install dependencies
@@ -18,8 +18,8 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test LoginTest.spec.js
-    - uses: actions/upload-artifact@v4
+      run: npx playwright test LoginTest.spec.js  --project=chromium
+    - uses: actions/upload-artifact@v4.6.2
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
@@ -29,8 +29,8 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v5.0.0
+    - uses: actions/setup-node@v4.4.0
       with:
         node-version: lts/*
     - name: Install dependencies
@@ -38,8 +38,8 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests 
-      run: npx playwright test Product_Search.spec.js
-    - uses: actions/upload-artifact@v4
+      run: npx playwright test Product_Search.spec.js --project="chromium"
+    - uses: actions/upload-artifact@v4.6.2
       if: ${{ !cancelled() }}
       with:
         name: playwright-report

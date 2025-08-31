@@ -70,7 +70,7 @@ export class ProductPage {
 
     async click_expectedproduct() {
         await this.productbox.last();
-        const expectedproduct = "Square Solid Wood Coffee Table in Gold";
+        const expectedproduct = "Square Solid Wood Coffee Table in Gold Finish";
         const prpoductboxcount = await this.productbox.count();
         console.log("Total number of products are: " + prpoductboxcount);
 
@@ -102,7 +102,7 @@ export class ProductPage {
 
     async verifyproductdetails() {
         await this.producttitle.isVisible();
-        const expectedproducttitle = "Square Solid Wood Coffee Table in Gold";
+        const expectedproducttitle = "Square Solid Wood Coffee Table in Gold Finish";
         const actualproducttitle = await this.producttitle.textContent();
         console.log("Actual product title is: " + actualproducttitle);
         console.log("Expected product title is: " + expectedproducttitle);
